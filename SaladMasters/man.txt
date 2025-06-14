@@ -1,0 +1,92 @@
+BLM3010 2025 Bahar Dönemi
+Sistem Programlama Dönem Projesi
+Kullanıcı Kılavuzu (man.txt)
+
+---
+
+Proje Adı: Dağıtık Malzeme Yönetimi ile Çoklu Üretici Tabanlı Salata Hazırlama Sistemi
+
+Amaç:
+Bu program, POSIX thread ve semaforlar kullanarak senkronize çalışan bir salata hazırlama sistemini simüle eder. 6 salata ustası ve 1 toptancı arasında geçen çok iş parçacıklı (multithreaded) bir senkronizasyon problemi çözülmektedir.
+
+---
+
+Gereksinimler:
+
+* Linux işletim sistemi
+* GCC derleyici
+* POSIX pthread ve semafor desteği
+
+---
+
+Derleme:
+Terminalde proje dizinine geçip aşağıdaki komutu kullanın:
+
+```
+gcc -pthread -o program saladmasters.c
+```
+
+---
+
+Çalıştırma:
+Program şu şekilde çalıştırılır:
+
+```
+./program -i input.txt
+```
+
+Burada "input.txt", toptancının malzeme dağıtım planlarını içeren dosyadır.
+
+---
+
+input.txt Formatı:
+Her satırda iki karakter olmalıdır. Geçerli karakterler:
+
+* Y: Yağ
+* T: Tuz
+* L: Limon
+* S: Sebze
+
+Örnek:
+TL
+YS
+LS
+ST
+LY
+
+Bu, sırasıyla "Tuz ve Limon", "Yağ ve Sebze" vb. anlamına gelir. En az 10 satır olmalıdır.
+
+---
+
+Program Çıktısı Örneği:
+usta2 tuz ve limon için bekliyor.
+usta3 sebze ve tuz için bekliyor.
+toptancı tuz ve limonu teslim ediyor.
+usta2 tuzu aldı.
+usta2 limonu aldı.
+usta2 salatayı hazırlıyor.
+usta2 salatayı toptancıya teslim etti.
+toptancı salatayı aldı ve satmaya gitti.
+
+---
+
+Teknik Detaylar:
+
+* Programda toplam 7 thread bulunur (6 usta + 1 toptancı).
+* Her usta sadece eksik iki malzemeyi bekler.
+* Toptancı bir dosyadan malzeme çiftlerini okur ve ustaya verir.
+* Tüm senkronizasyon işlemleri semaforlarla yapılır.
+* Salata hazırlanma süresi 1-5 saniye arası rastgele belirlenir.
+* Program sonunda her thread düzgün şekilde sonlandırılır.
+
+---
+
+Hata Durumları:
+
+* Geçersiz komut satırı argümanlarında, kullanım bilgisi verilir.
+* Dosya açılamazsa hata mesajı ile çıkış yapılır.
+* Malzeme eşleşmesi yapılmazsa uyarı verilir.
+
+---
+
+Tarih: Mayıs 2025
